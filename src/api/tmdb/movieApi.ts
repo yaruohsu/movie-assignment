@@ -1,8 +1,10 @@
 
 import { apiClient } from '@/api/apiClient';
 import { TMDB_ENDPOINTS } from '@/constants/tmdb';
-import mockSearchResult from '../__mocks__/search.json';
-import mockMovieDetail from '../__mocks__/detail.json';
+import mockSearchResult from '@/api/__mocks__/search.json';
+import mockMovieDetail from '@/api/__mocks__/detail.json';
+import { toMovieDetail } from './movieDetail.dto';
+import { toMovieList } from './movieList.dto';
 
 const language = 'en-US';
 
@@ -11,7 +13,7 @@ const USE_MOCK = import.meta.env.VITE_USE_MOCK === 'true';
 
 export const searchMovies = async (data: { query: string; page: number; }) => {
   if (USE_MOCK) {
-    return mockSearchResult;
+    return toMovieList(mockSearchResult.results);
   }
 
   const { query, page } = data
@@ -24,12 +26,13 @@ export const searchMovies = async (data: { query: string; page: number; }) => {
 
     },
   });
-  return res.data;
+
+  return toMovieList(res.data.results);
 };
 
 export const getMovieDetail = async (id: number) => {
   if (USE_MOCK) {
-    return mockMovieDetail;
+    return toMovieDetail(mockMovieDetail);
   }
 
   const res = await apiClient.get(TMDB_ENDPOINTS.MOVIE_DETAIL(id), {
@@ -37,5 +40,6 @@ export const getMovieDetail = async (id: number) => {
       language
     },
   });
-  return res.data;
+
+  return toMovieDetail(res.data);
 }
