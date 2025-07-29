@@ -1,45 +1,59 @@
+import { apiClient } from '@/api/apiClient'
+import { TMDB_ENDPOINTS } from '@/constants/tmdb'
+import mockSearchResult from '@/api/__mocks__/search.json'
+import mockMovieDetail from '@/api/__mocks__/detail.json'
+import { toMovieDetail, type MovieDetail } from './movieDetail.dto'
+import { toMovieList, type Movie } from './movieList.dto'
 
-import { apiClient } from '@/api/apiClient';
-import { TMDB_ENDPOINTS } from '@/constants/tmdb';
-import mockSearchResult from '@/api/__mocks__/search.json';
-import mockMovieDetail from '@/api/__mocks__/detail.json';
-import { toMovieDetail } from './movieDetail.dto';
-import { toMovieList } from './movieList.dto';
+const language = 'en-US'
 
-const language = 'en-US';
+const USE_MOCK = import.meta.env.VITE_USE_MOCK === 'true'
 
-const USE_MOCK = import.meta.env.VITE_USE_MOCK === 'true';
+interface MoviesList {
+  movies: Movie[]
+  hasMore: boolean
+}
 
-
-export const searchMovies = async (data: { query: string; page: number; }) => {
+export const searchMovies = async (query: string, pageParam: number): Promise<MoviesList> => {
   if (USE_MOCK) {
-    return toMovieList(mockSearchResult.results);
+    return {
+      movies: toMovieList(mockSearchResult.results),
+      hasMore: mockSearchResult.page < mockSearchResult.total_pages,
+    }
   }
 
-  const { query, page } = data
+  if (!query) {
+    return { movies: [], hasMore: false }
+  }
+
   const res = await apiClient.get(TMDB_ENDPOINTS.SEARCH_MOVIE, {
     params: {
-      'include_adult': false,
+      include_adult: false,
       language,
       query,
-      page: page || 1,
-
+      page: pageParam || 1,
     },
-  });
+  })
 
-  return toMovieList(res.data.results);
-};
+  return {
+    movies: toMovieList(res.data.results),
+    hasMore: res.data.page < res.data.total_pages,
+  }
+}
 
-export const getMovieDetail = async (id: number) => {
+export const getMovieDetail = async (id: number): Promise<MovieDetail> => {
   if (USE_MOCK) {
-    return toMovieDetail(mockMovieDetail);
+    return toMovieDetail(mockMovieDetail)
+  }
+  if (!id) {
+    throw new Error('Movie ID is required')
   }
 
   const res = await apiClient.get(TMDB_ENDPOINTS.MOVIE_DETAIL(id), {
     params: {
-      language
+      language,
     },
-  });
+  })
 
-  return toMovieDetail(res.data);
+  return toMovieDetail(res.data)
 }

@@ -1,8 +1,8 @@
-import type { Movie } from "@/api/tmdb/movieList.dto";
-import { MovieCard } from "@/components/MovieCard";
+import type { Movie } from '@/api/tmdb/movieList.dto'
+import { MovieCard } from '@/components/MovieCard'
 
 interface MovieListProps {
-  movies: Movie[];
+  movies: Movie[]
 }
 
 export const MovieList = ({ movies }: MovieListProps) => (
@@ -13,4 +13,4 @@ export const MovieList = ({ movies }: MovieListProps) => (
       ))}
     </div>
   </div>
-);
+)
