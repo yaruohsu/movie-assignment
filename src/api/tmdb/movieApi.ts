@@ -15,7 +15,10 @@ export interface SearchMoviesResult {
   currentPage?: number
 }
 
-export const searchMovies = async (query: string, pageParam: number): Promise<SearchMoviesResult> => {
+export const searchMovies = async (
+  query: string,
+  pageParam: number
+): Promise<SearchMoviesResult> => {
   if (USE_MOCK) {
     return {
       movies: toMovieList(mockSearchResult.results),
@@ -23,23 +26,24 @@ export const searchMovies = async (query: string, pageParam: number): Promise<Se
     }
   }
 
-  if (!query) {
-    return { movies: [], hasMore: false }
-  }
+  try {
+    const res = await apiClient.get(TMDB_ENDPOINTS.SEARCH_MOVIE, {
+      params: {
+        include_adult: false,
+        language,
+        query,
+        page: pageParam || 1,
+      },
+    })
 
-  const res = await apiClient.get(TMDB_ENDPOINTS.SEARCH_MOVIE, {
-    params: {
-      include_adult: false,
-      language,
-      query,
-      page: pageParam || 1,
-    },
-  })
-
-  return {
-    movies: toMovieList(res.data.results),
-    hasMore: res.data.page < res.data.total_pages,
-    currentPage: res.data.page,
+    return {
+      movies: toMovieList(res.data.results),
+      hasMore: res.data.page < res.data.total_pages,
+      currentPage: res.data.page,
+    }
+  } catch (error) {
+    console.error('Error fetching search results:', error)
+    throw new Error('Something went wrong while searching for movies. Please try again.')
   }
 }
 
@@ -47,15 +51,17 @@ export const getMovieDetail = async (id: number): Promise<MovieDetail> => {
   if (USE_MOCK) {
     return toMovieDetail(mockMovieDetail)
   }
-  if (!id) {
-    throw new Error('Movie ID is required')
+
+  try {
+    const res = await apiClient.get(TMDB_ENDPOINTS.MOVIE_DETAIL(id), {
+      params: {
+        language,
+      },
+    })
+
+    return toMovieDetail(res.data)
+  } catch (error) {
+    console.error('Error fetching movie detail:', error)
+    throw new Error('Something went wrong while retrieving movie details. Please try again.')
   }
-
-  const res = await apiClient.get(TMDB_ENDPOINTS.MOVIE_DETAIL(id), {
-    params: {
-      language,
-    },
-  })
-
-  return toMovieDetail(res.data)
 }

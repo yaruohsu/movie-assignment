@@ -13,6 +13,8 @@ const Search = () => {
     hasNextPage,
     isFetchingNextPage,
     isLoading,
+    isError,
+    error,
   } = useInfiniteMovieSearch(query)
 
   const bottomRef = useRef<HTMLDivElement | null>(null)
@@ -29,6 +31,9 @@ const Search = () => {
   }, [hasNextPage, isFetchingNextPage, fetchNextPage])
 
   const movies = data?.pages.flatMap((p) => p.movies) ?? []
+
+
+  if (isError) return <div className="text-red-500">Error：{error.message}</div>
 
   return (
     <div className="container mx-auto p-4">
