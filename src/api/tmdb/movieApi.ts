@@ -9,12 +9,13 @@ const language = 'en-US'
 
 const USE_MOCK = import.meta.env.VITE_USE_MOCK === 'true'
 
-interface MoviesList {
+export interface SearchMoviesResult {
   movies: Movie[]
   hasMore: boolean
+  currentPage?: number
 }
 
-export const searchMovies = async (query: string, pageParam: number): Promise<MoviesList> => {
+export const searchMovies = async (query: string, pageParam: number): Promise<SearchMoviesResult> => {
   if (USE_MOCK) {
     return {
       movies: toMovieList(mockSearchResult.results),
@@ -38,6 +39,7 @@ export const searchMovies = async (query: string, pageParam: number): Promise<Mo
   return {
     movies: toMovieList(res.data.results),
     hasMore: res.data.page < res.data.total_pages,
+    currentPage: res.data.page,
   }
 }
 

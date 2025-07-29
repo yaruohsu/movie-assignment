@@ -1,19 +1,35 @@
-import { searchMovies } from '@/api/tmdb/movieApi'
-import type { Movie } from '@/api/tmdb/movieList.dto'
 import { MovieList } from '@/components/MovieList'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { useEffect, useState } from 'react'
+import { useInfiniteMovieSearch } from '@/hooks/useInfiniteMovieSearch'
+import { useEffect, useRef, useState } from 'react'
 
 const Search = () => {
-  const [movies, setMovies] = useState<Movie[]>([])
+  const [query] = useState('snoopy')
+
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+  } = useInfiniteMovieSearch(query)
+
+  const bottomRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
-    ;(async () => {
-      const res = await searchMovies('Oppenheimer', 1)
-      setMovies(res.movies)
-    })()
-  }, [])
+    if (!bottomRef.current) return
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
+        fetchNextPage()
+      }
+    })
+    observer.observe(bottomRef.current)
+    return () => observer.disconnect()
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage])
+
+  const movies = data?.pages.flatMap((p) => p.movies) ?? []
+
   return (
     <div className="container mx-auto p-4">
       <div className="flex flex-col items-center mb-8">
@@ -29,8 +45,16 @@ const Search = () => {
           </Button>
         </div>
       </div>
-
-      <MovieList movies={movies} />
+      {isLoading ? (
+        <p className="text-gray-400">Loading...</p>
+      ) : (
+        <>
+          <MovieList movies={movies} />
+          <div ref={bottomRef} className="h-12" />
+          {isFetchingNextPage && <p className="text-gray-400 mt-4">Loading more...</p>}
+          {!hasNextPage && <p className="text-gray-500 mt-4">No more results</p>}
+        </>
+      )}
     </div>
   )
 }
