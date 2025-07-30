@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useSearchStore } from '@/stores/searchStore'
-import { MovieList } from '@/components/MovieList'
+import { MovieList } from '@/features/search/MovieList'
 import { useInfiniteMovieSearch } from '@/hooks/useInfiniteMovieSearch'
 
 const Search = () => {

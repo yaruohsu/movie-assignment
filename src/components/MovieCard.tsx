@@ -1,13 +1,13 @@
+import type { Movie } from '@/api/tmdb/movieList.dto'
 import fallbackPoster from '@/assets/images/fallback-poster.png'
 
 type MovieCardProps = {
-  id: number
-  title: string
-  posterUrl: string
+  movie: Movie
   onClick?: (id: number) => void
 }
 
-export const MovieCard = ({ id, title, posterUrl, onClick }: MovieCardProps) => {
+export const MovieCard = ({ movie, onClick }: MovieCardProps) => {
+  const { id, title, posterUrl } = movie;
 
   const handleClick = () => {
     if (onClick) {

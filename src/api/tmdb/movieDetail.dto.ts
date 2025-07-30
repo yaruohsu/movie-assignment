@@ -57,18 +57,33 @@ export interface MovieDetailRaw {
   vote_count: number
 }
 
-export interface MovieDetail {
-  id: number
-  title: string
-  description: string
-  posterUrl: string
-  year: string
-}
+export type MovieDetailPreview = Pick<
+  MovieDetailRaw,
+  | 'title'
+  | 'tagline'
+  | 'overview'
+  | 'backdrop_path'
+  | 'poster_path'
+  | 'genres'
+  | 'vote_average'
+  | 'release_date'
+  | 'runtime'
+  | 'production_companies'
+  | 'homepage'
+  | 'vote_count'
+>;
 
-export const toMovieDetail = (raw: MovieDetailRaw): MovieDetail => ({
-  id: raw.id,
+export const toMovieDetail = (raw: MovieDetailRaw): MovieDetailPreview => ({
   title: raw.title,
-  description: raw.overview,
-  posterUrl: `https://image.tmdb.org/t/p/w500${raw.poster_path}`,
-  year: raw.release_date.split('-')[0],
+  tagline: raw.tagline,
+  overview: raw.overview,
+  backdrop_path: raw.backdrop_path,
+  poster_path: raw.poster_path,
+  genres: raw.genres,
+  vote_average: raw.vote_average,
+  release_date: raw.release_date,
+  runtime: raw.runtime,
+  production_companies: raw.production_companies,
+  homepage: raw.homepage,
+  vote_count: raw.vote_count,
 })

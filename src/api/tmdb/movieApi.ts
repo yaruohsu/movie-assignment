@@ -2,7 +2,7 @@ import { apiClient } from '@/api/apiClient'
 import { TMDB_ENDPOINTS } from '@/constants/tmdb'
 import mockSearchResult from '@/api/__mocks__/search.json'
 import mockMovieDetail from '@/api/__mocks__/detail.json'
-import { toMovieDetail, type MovieDetail } from './movieDetail.dto'
+import { toMovieDetail, type MovieDetailPreview } from './movieDetail.dto'
 import { toMovieList, type Movie } from './movieList.dto'
 
 const language = 'en-US'
@@ -47,7 +47,7 @@ export const searchMovies = async (
   }
 }
 
-export const getMovieDetail = async (id: number): Promise<MovieDetail> => {
+export const fetchMovieDetail = async (id: number): Promise<MovieDetailPreview> => {
   if (USE_MOCK) {
     return toMovieDetail(mockMovieDetail)
   }

@@ -1,15 +1,25 @@
 import { type FC } from 'react';
 import { Star } from 'lucide-react';
+import { useParams } from 'react-router-dom'
 import fallbackPoster from '@/assets/images/fallback-poster.png'
-import data from '@/api/__mocks__/detail.json';
+import { useMovieDetail } from '@/hooks/useMovieDetail'
 
 
 const MovieDetailPage: FC = () => {
+  const { id } = useParams()
+  const { data, isLoading, isError, isInvalidId } = useMovieDetail(id)
 
-  // TBD:
-  // 1. get id from URL params
-  // 2. const { data, isLoading, error } = useGetMovieDetailQuery(id);
-  // 
+  if (isInvalidId) {
+    return <div>Invalid movie ID</div>
+  }
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+
+  if (isError || !data) {
+    return <div>Failed to load movie details</div>
+  }
 
   const {
     title,
@@ -25,12 +35,13 @@ const MovieDetailPage: FC = () => {
     homepage,
   } = data;
 
+
   return (
     <div className="text-foreground">
       {/* Banner */}
       {backdrop_path && (
         <div
-          className="w-full h-64 md:h-96 bg-cover bg-center"
+          className="w-full h-64 hidden md:block md:h-96 bg-top bg-cover"
           style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original${backdrop_path})` }}
         />
       )}
@@ -52,7 +63,7 @@ const MovieDetailPage: FC = () => {
         </div>
 
         {/* Content */}
-        <div className="md:col-span-2 space-y-4">
+        <div className="md:col-span-2 flex flex-col min-h-full space-y-4">
           <div>
             <h1 className="text-2xl md:text-4xl font-bold">{title}</h1>
             <p className="text-muted-foreground italic">{tagline}</p>
@@ -83,19 +94,20 @@ const MovieDetailPage: FC = () => {
             </a>
           )}
 
-          <div>
-            <h2 className="font-semibold mt-6">Production Companies</h2>
-            <div className="flex flex-wrap gap-4 mt-2">
+          {/* Production Companies */}
+          <div className="mt-auto pt-4">
+            <h2 className="font-semibold">Production Companies</h2>
+            <div className="flex flex-wrap gap-4 mt-2 justify-center">
               {production_companies.map((company) => (
                 <div key={company.id} className="flex items-center gap-2">
-                  {company.logo_path && (
+                  {company.logo_path ? (
                     <img
                       src={`https://image.tmdb.org/t/p/w200${company.logo_path}`}
                       alt={company.name}
                       className="h-6 object-contain"
                     />
-                  )}
-                  <span className="text-sm">{company.name}</span>
+                  ) : <span className="text-sm">{company.name}</span>}
+
                 </div>
               ))}
             </div>
