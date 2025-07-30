@@ -8,7 +8,7 @@ const WatchList = lazy(() => import('./features/watchList'))
 const routes: RouteObject[] = [
   { path: '/', element: <div /> } /** TBD: show trending movie */,
   { path: '/search', element: <Search /> },
-  { path: '/detail', element: <Detail /> },
+  { path: '/detail/:id', element: <Detail /> },
   { path: '/watchList', element: <WatchList /> },
 ]
 
