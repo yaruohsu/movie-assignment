@@ -12,6 +12,7 @@ type WatchListState = {
   watchList: WatchListMovie[]
   toggleWatchList: (movie: Omit<WatchListMovie, 'addTime'>) => void
   isInWatchList: (id: number) => boolean
+  getRandomMovie: () => WatchListMovie | null
 }
 
 export const useWatchListStore = create(
@@ -32,6 +33,12 @@ export const useWatchListStore = create(
       },
       isInWatchList: (id) =>
         get().watchList.some((movie) => movie.id === id),
+      getRandomMovie: () => {
+        const list = get().watchList
+        if (list.length === 0) return null
+        const randomIndex = Math.floor(Math.random() * list.length)
+        return list[randomIndex]
+      },
     }),
     {
       name: 'watchList-storage', // localStorage key

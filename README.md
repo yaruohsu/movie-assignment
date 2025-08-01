@@ -8,6 +8,7 @@ A React application for browsing and saving movies using the TMDb API.
 - 🔍 Search for movies
 - ⭐️ Add/remove movies to your personal watch list
 - 📱 Responsive design (mobile & desktop)
+- 🎲 Movie Picker
 
 
 ## 🛠️ Tech Stack
