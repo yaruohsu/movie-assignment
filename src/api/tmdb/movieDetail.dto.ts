@@ -60,20 +60,14 @@ export interface MovieDetailRaw {
 
 export type MovieDetailPreview = Pick<
   MovieDetailRaw,
-  | 'title'
-  | 'tagline'
-  | 'overview'
-  | 'genres'
-  | 'runtime'
-  | 'homepage'
-  | 'vote_count'
+  'title' | 'tagline' | 'overview' | 'genres' | 'runtime' | 'homepage' | 'vote_count'
 > & {
   posterUrl: string
   backdropPath?: string | null
   voteAverage: number
   releaseDate: string
   productionCompanies: ProductionCompany[]
-};
+}
 
 export const toMovieDetail = (raw: MovieDetailRaw): MovieDetailPreview => ({
   title: raw.title,

@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { FC } from 'react'
 
 interface LogoImageProps {
   src: string
@@ -13,10 +13,6 @@ export const LogoImage: FC<LogoImageProps> = ({ src, alt, className = '' }) => {
   const pngClass = 'bg-white rounded px-1 py-0.5'
 
   return (
-    <img
-      src={src}
-      alt={alt}
-      className={`${baseClass} ${isPng ? pngClass : ''} ${className}`}
-    />
+    <img src={src} alt={alt} className={`${baseClass} ${isPng ? pngClass : ''} ${className}`} />
   )
 }

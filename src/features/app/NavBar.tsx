@@ -11,11 +11,9 @@ export default function NavBar() {
   const navigate = useNavigate()
   const location = useLocation()
 
-
   const handleSearch = () => {
     navigate('/search?q=' + encodeURIComponent(query))
   }
-
 
   useEffect(() => {
     const hasHistory = window.history.length > 1
@@ -35,12 +33,7 @@ export default function NavBar() {
       <div className="flex items-center gap-3">
         {/* Back icon: only on mobile and if can go back and not on search page */}
         {canGoBack && (
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => navigate(-1)}
-            className="sm:hidden"
-          >
+          <Button variant="ghost" size="icon" onClick={() => navigate(-1)} className="sm:hidden">
             <ArrowLeft className="w-5 h-5" />
           </Button>
         )}

@@ -16,7 +16,7 @@ const WatchListPage: FC = () => {
     if (movie) {
       alert(`🎬 Tonight's pick: ${movie.title}`)
     } else {
-      alert("你的 WatchList 是空的 😅")
+      alert('你的 WatchList 是空的 😅')
     }
   }
 
@@ -41,7 +41,9 @@ const WatchListPage: FC = () => {
                 onImageClick={() => navigate(`/detail/${movie.id}`)}
                 content={
                   <>
-                    <div className="flex text-sm font-medium h-10 items-center justify-center">{movie.title}</div>
+                    <div className="flex text-sm font-medium h-10 items-center justify-center">
+                      {movie.title}
+                    </div>
                     <Button
                       variant="ghost"
                       size="sm"

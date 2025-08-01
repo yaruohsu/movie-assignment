@@ -14,15 +14,19 @@ type MovieCardProps = {
   content?: React.ReactNode
 }
 
-export const MovieCard = ({ movie, isSaved, onCardClick, onImageClick, onToggleSave, content }: MovieCardProps) => {
+export const MovieCard = ({
+  movie,
+  isSaved,
+  onCardClick,
+  onImageClick,
+  onToggleSave,
+  content,
+}: MovieCardProps) => {
   const { id, title, posterUrl } = movie
 
   return (
     <Card
-      className={cn(
-        'relative py-0 gap-1',
-        onCardClick && 'cursor-pointer'
-      )}
+      className={cn('relative py-0 gap-1', onCardClick && 'cursor-pointer')}
       onClick={() => onCardClick?.(id)}
     >
       <div
@@ -56,9 +60,7 @@ export const MovieCard = ({ movie, isSaved, onCardClick, onImageClick, onToggleS
           className="absolute top-2 right-2 z-10"
         />
       )}
-      <CardContent className="flex flex-col gap-2 p-2">
-        {content}
-      </CardContent>
+      <CardContent className="flex flex-col gap-2 p-2">{content}</CardContent>
     </Card>
   )
 }

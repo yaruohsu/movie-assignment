@@ -1,9 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { fetchMovieDetail } from '@/api/tmdb/movieApi'
 
-export const useMovieDetail = (
-  id: number,
-) => {
+export const useMovieDetail = (id: number) => {
   const isValidId = typeof id === 'number' && !isNaN(id)
 
   const queryResult = useQuery({
@@ -18,6 +16,6 @@ export const useMovieDetail = (
   return {
     ...queryResult,
     isInvalidId: !isValidId,
-    isNotFound
+    isNotFound,
   }
 }

@@ -7,7 +7,6 @@ const Detail = lazy(() => import('./features/detail'))
 const WatchList = lazy(() => import('./features/watchList'))
 const NotFound = lazy(() => import('./features/NotFoundPage'))
 
-
 const routes: RouteObject[] = [
   { path: '/', element: <Home /> },
   { path: '/search', element: <Search /> },

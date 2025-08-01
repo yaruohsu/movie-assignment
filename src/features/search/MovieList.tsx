@@ -29,5 +29,4 @@ export const MovieList = ({ movies }: MovieListProps) => {
       ))}
     </div>
   )
-
 }

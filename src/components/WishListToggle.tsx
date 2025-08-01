@@ -1,7 +1,7 @@
 import { Bookmark } from 'lucide-react'
-import type { FC } from 'react';
-import { cn } from '@/lib/utils';
-import { Button } from './ui/button';
+import type { FC } from 'react'
+import { cn } from '@/lib/utils'
+import { Button } from './ui/button'
 
 export const WishListToggle: FC<{
   id: number
@@ -13,7 +13,7 @@ export const WishListToggle: FC<{
 }> = ({ id, isSaved, posterUrl, title, onToggleSave, className }) => (
   <Button
     className={cn(
-      "bg-background/0 hover:bg-background/80 backdrop-blur-sm rounded-full p-1 transition cursor-pointer",
+      'bg-background/0 hover:bg-background/80 backdrop-blur-sm rounded-full p-1 transition cursor-pointer',
       className
     )}
     onClick={(e) => {
@@ -28,6 +28,5 @@ export const WishListToggle: FC<{
       )}
       strokeWidth={2}
     />
-
   </Button>
 )

@@ -24,7 +24,7 @@ export interface Movie {
 
 export const toMovieList = (data: MovieRaw[]): Movie[] => {
   return data.map((item: MovieRaw) => {
-    const isFullUrl = item.poster_path?.startsWith('http');
+    const isFullUrl = item.poster_path?.startsWith('http')
     return {
       id: item.id,
       title: item.title,
@@ -33,7 +33,6 @@ export const toMovieList = (data: MovieRaw[]): Movie[] => {
           ? item.poster_path
           : `https://image.tmdb.org/t/p/w500${item.poster_path}`
         : fallbackPoster,
-    };
-  });
-};
-
+    }
+  })
+}

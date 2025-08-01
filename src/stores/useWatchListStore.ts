@@ -31,8 +31,7 @@ export const useWatchListStore = create(
           }))
         }
       },
-      isInWatchList: (id) =>
-        get().watchList.some((movie) => movie.id === id),
+      isInWatchList: (id) => get().watchList.some((movie) => movie.id === id),
       getRandomMovie: () => {
         const list = get().watchList
         if (list.length === 0) return null

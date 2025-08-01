@@ -1,21 +1,17 @@
-import { type FC } from 'react';
-import { Star } from 'lucide-react';
+import { type FC } from 'react'
+import { Star } from 'lucide-react'
 import { useParams } from 'react-router-dom'
 import { useMovieDetail } from '@/hooks/useMovieDetail'
-import { LogoImage } from '@/components/LogoImage';
-import { useWatchListStore } from '@/stores/useWatchListStore';
-import { WishListToggle } from '@/components/WishListToggle';
-
+import { LogoImage } from '@/components/LogoImage'
+import { useWatchListStore } from '@/stores/useWatchListStore'
+import { WishListToggle } from '@/components/WishListToggle'
 
 const MovieDetailPage: FC = () => {
   const { id: idParam } = useParams()
   const id = Number(idParam)
   const { data, isLoading, isError, isInvalidId, isNotFound } = useMovieDetail(id)
 
-  const {
-    toggleWatchList,
-    isInWatchList,
-  } = useWatchListStore()
+  const { toggleWatchList, isInWatchList } = useWatchListStore()
 
   if (isInvalidId) {
     return <div>Invalid movie ID</div>
@@ -38,7 +34,7 @@ const MovieDetailPage: FC = () => {
     runtime,
     productionCompanies,
     homepage,
-  } = data;
+  } = data
 
   const inWatchList = isInWatchList(id)
 
@@ -62,11 +58,7 @@ const MovieDetailPage: FC = () => {
       <div className="max-w-5xl mx-auto px-4 py-6 md:py-10 grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Poster */}
         <div className="md:col-span-1">
-          <img
-            src={posterUrl}
-            alt={title}
-            className="w-full rounded-xl shadow-lg"
-          />
+          <img src={posterUrl} alt={title} className="w-full rounded-xl shadow-lg" />
         </div>
 
         {/* Content */}
@@ -113,27 +105,29 @@ const MovieDetailPage: FC = () => {
           )}
 
           {/* Production Companies */}
-          {productionCompanies.length > 0 && (<div className="mt-auto pt-4">
-            <h2 className="font-semibold">Production Companies</h2>
-            <div className="flex flex-wrap gap-4 mt-2 justify-center">
-              {productionCompanies.map((company) => (
-                <div key={company.id} className="flex items-center gap-2">
-                  {company.logo_path ? (
-                    <LogoImage
-                      src={`https://image.tmdb.org/t/p/w200${company.logo_path}`}
-                      alt={company.name}
-                    />
-                  ) : (
-                    <span className="text-sm">{company.name}</span>
-                  )}
-                </div>
-              ))}
+          {productionCompanies.length > 0 && (
+            <div className="mt-auto pt-4">
+              <h2 className="font-semibold">Production Companies</h2>
+              <div className="flex flex-wrap gap-4 mt-2 justify-center">
+                {productionCompanies.map((company) => (
+                  <div key={company.id} className="flex items-center gap-2">
+                    {company.logo_path ? (
+                      <LogoImage
+                        src={`https://image.tmdb.org/t/p/w200${company.logo_path}`}
+                        alt={company.name}
+                      />
+                    ) : (
+                      <span className="text-sm">{company.name}</span>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>)}
+          )}
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default MovieDetailPage;
+export default MovieDetailPage

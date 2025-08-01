@@ -1,4 +1,3 @@
-
 # Movie2Watch
 
 A React application for browsing and saving movies using the TMDb API.
@@ -9,7 +8,6 @@ A React application for browsing and saving movies using the TMDb API.
 - ⭐️ Add/remove movies to your personal watch list
 - 📱 Responsive design (mobile & desktop)
 - 🎲 Movie Picker
-
 
 ## 🛠️ Tech Stack
 
@@ -27,7 +25,7 @@ npm install
 
 # Start the development server
 npm run dev
-````
+```
 
 ## 🔐 Environment Variables
 
