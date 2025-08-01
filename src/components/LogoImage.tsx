@@ -10,7 +10,7 @@ export const LogoImage: FC<LogoImageProps> = ({ src, alt, className = '' }) => {
   const isPng = src.toLowerCase().endsWith('.png')
 
   const baseClass = 'h-6 object-contain'
-  const pngClass = 'bg-white rounded-sm px-1 py-0.5'
+  const pngClass = 'bg-white rounded px-1 py-0.5'
 
   return (
     <img
