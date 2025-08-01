@@ -1,12 +1,14 @@
 import { useEffect, useRef } from 'react'
-import { useSearchStore } from '@/stores/searchStore'
 import { MovieList } from '@/features/search/MovieList'
 import { useInfiniteMovieSearch } from '@/hooks/useInfiniteMovieSearch'
+import { useSearchParams } from 'react-router-dom'
 
 const Search = () => {
-  const query = useSearchStore((state) => state.query)
+  const [searchParams] = useSearchParams()
+  const keyword = decodeURIComponent(searchParams.get('q') ?? '')
+
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError, error } =
-    useInfiniteMovieSearch(query)
+    useInfiniteMovieSearch(keyword)
 
   const bottomRef = useRef<HTMLDivElement | null>(null)
 
