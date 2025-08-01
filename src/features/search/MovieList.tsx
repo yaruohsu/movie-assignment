@@ -21,8 +21,12 @@ export const MovieList = ({ movies }: MovieListProps) => {
           movie={movie}
           isSaved={isSaved(movie.id)}
           onToggleSave={toggleWatchList}
-          onClick={() => navigate(`../detail/${movie.id}`)}
-
+          onCardClick={() => navigate(`../detail/${movie.id}`)}
+          content={
+            <h2 className="text-base md:text-lg lg:text-xl text-foreground line-clamp-2 text-center">
+              {movie.title}
+            </h2>
+          }
         />
       ))}
     </div>
