@@ -3,6 +3,7 @@ import { Star } from 'lucide-react';
 import { useParams } from 'react-router-dom'
 import fallbackPoster from '@/assets/images/fallback-poster.png'
 import { useMovieDetail } from '@/hooks/useMovieDetail'
+import { LogoImage } from '@/components/LogoImage';
 
 
 const MovieDetailPage: FC = () => {
@@ -101,10 +102,9 @@ const MovieDetailPage: FC = () => {
               {production_companies.map((company) => (
                 <div key={company.id} className="flex items-center gap-2">
                   {company.logo_path ? (
-                    <img
+                    <LogoImage
                       src={`https://image.tmdb.org/t/p/w200${company.logo_path}`}
                       alt={company.name}
-                      className="h-6 object-contain"
                     />
                   ) : <span className="text-sm">{company.name}</span>}
 
