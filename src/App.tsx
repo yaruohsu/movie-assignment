@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Suspense } from 'react'
 import routes from './routes'
 import './App.css'
-import NavBar from './components/NavBar'
+import NavBar from './features/app/NavBar'
 
 export default function App() {
   return (

@@ -88,7 +88,7 @@ export default function NavBar() {
         {/* Desktop: icon + text */}
         <Button
           variant="ghost"
-          className="hidden sm:flex items-center gap-1 text-sm font-medium"
+          className="hidden sm:flex items-center gap-1 text-sm font-medium cursor-pointer"
           onClick={() => navigate('/watchList')}
         >
           <Bookmark className="w-5 h-5" />
