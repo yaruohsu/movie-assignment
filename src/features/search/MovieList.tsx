@@ -1,6 +1,7 @@
+import { useNavigate } from 'react-router-dom'
 import type { Movie } from '@/api/tmdb/movieList.dto'
 import { MovieCard } from '@/components/MovieCard'
-import { useNavigate } from 'react-router-dom'
+import { useWatchListStore } from '@/stores/useWatchListStore'
 
 interface MovieListProps {
   movies: Movie[]
@@ -8,6 +9,9 @@ interface MovieListProps {
 
 export const MovieList = ({ movies }: MovieListProps) => {
   const navigate = useNavigate()
+  const { watchList, toggleWatchList } = useWatchListStore()
+
+  const isSaved = (id: number) => watchList.some((m) => m.id === id)
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -15,7 +19,10 @@ export const MovieList = ({ movies }: MovieListProps) => {
         <MovieCard
           key={movie.id}
           movie={movie}
+          isSaved={isSaved(movie.id)}
+          onToggleSave={toggleWatchList}
           onClick={() => navigate(`../detail/${movie.id}`)}
+
         />
       ))}
     </div>

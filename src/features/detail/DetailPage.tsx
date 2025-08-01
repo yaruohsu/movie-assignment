@@ -1,26 +1,25 @@
 import { type FC } from 'react';
-import { Star } from 'lucide-react';
+import { Bookmark, BookmarkCheck, Star } from 'lucide-react';
 import { useParams } from 'react-router-dom'
 import fallbackPoster from '@/assets/images/fallback-poster.png'
 import { useMovieDetail } from '@/hooks/useMovieDetail'
 import { LogoImage } from '@/components/LogoImage';
+import { useWatchListStore } from '@/stores/useWatchListStore';
 
 
 const MovieDetailPage: FC = () => {
-  const { id } = useParams()
+  const { id: idParam } = useParams()
+  const id = Number(idParam)
   const { data, isLoading, isError, isInvalidId } = useMovieDetail(id)
 
-  if (isInvalidId) {
-    return <div>Invalid movie ID</div>
-  }
+  const {
+    toggleWatchList,
+    isInWatchList,
+  } = useWatchListStore()
 
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
-
-  if (isError || !data) {
-    return <div>Failed to load movie details</div>
-  }
+  if (isInvalidId) return <div>Invalid movie ID</div>
+  if (isLoading) return <div>Loading...</div>
+  if (isError || !data) return <div>Failed to load movie details</div>
 
   const {
     title,
@@ -36,6 +35,15 @@ const MovieDetailPage: FC = () => {
     homepage,
   } = data;
 
+  const inWatchList = isInWatchList(id)
+
+  const handleToggle = () => {
+    toggleWatchList({
+      id,
+      title: data.title,
+      posterUrl: data.poster_path ?? fallbackPoster,
+    })
+  }
 
   return (
     <div className="text-foreground">
@@ -46,7 +54,6 @@ const MovieDetailPage: FC = () => {
           style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original${backdrop_path})` }}
         />
       )}
-
 
       <div className="max-w-5xl mx-auto px-4 py-6 md:py-10 grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Poster */}
@@ -65,11 +72,27 @@ const MovieDetailPage: FC = () => {
 
         {/* Content */}
         <div className="md:col-span-2 flex flex-col min-h-full space-y-4">
-          <div>
-            <h1 className="text-2xl md:text-4xl font-bold">{title}</h1>
-            <p className="text-muted-foreground italic">{tagline}</p>
+          {/* 標題 + 收藏 */}
+          <div className="flex items-start justify-between">
+            <div>
+              <h1 className="text-2xl md:text-4xl font-bold">{title}</h1>
+              <p className="text-muted-foreground italic">{tagline}</p>
+            </div>
+            <button
+              onClick={handleToggle}
+              className="ml-4 mt-1 text-primary hover:opacity-80"
+              title={inWatchList ? 'Remove from WatchList' : 'Add to WatchList'}
+            >
+              {inWatchList ? (
+                <BookmarkCheck className="w-5 h-5 text-yellow-400" />
+              ) : (
+                <Bookmark className="w-5 h-5 text-white" />
+              )}
+
+            </button>
           </div>
 
+          {/* 評分 */}
           <div className="flex items-center gap-2 justify-center md:justify-start text-yellow-400">
             <Star className="w-5 h-5 fill-yellow-400" />
             <span className="text-lg font-semibold">{vote_average}/10</span>
@@ -106,8 +129,9 @@ const MovieDetailPage: FC = () => {
                       src={`https://image.tmdb.org/t/p/w200${company.logo_path}`}
                       alt={company.name}
                     />
-                  ) : <span className="text-sm">{company.name}</span>}
-
+                  ) : (
+                    <span className="text-sm">{company.name}</span>
+                  )}
                 </div>
               ))}
             </div>
@@ -116,6 +140,6 @@ const MovieDetailPage: FC = () => {
       </div>
     </div>
   );
-};
+}
 
 export default MovieDetailPage;
