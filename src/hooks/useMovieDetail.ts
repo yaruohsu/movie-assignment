@@ -2,9 +2,8 @@ import { useQuery } from '@tanstack/react-query'
 import { fetchMovieDetail } from '@/api/tmdb/movieApi'
 
 export const useMovieDetail = (
-  idParam: string | undefined,
+  id: number,
 ) => {
-  const id = Number(idParam)
   const isValidId = typeof id === 'number' && !isNaN(id)
 
   const queryResult = useQuery({
