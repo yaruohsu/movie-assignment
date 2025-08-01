@@ -9,14 +9,19 @@ import { useWatchListStore } from '@/stores/useWatchListStore';
 const MovieDetailPage: FC = () => {
   const { id: idParam } = useParams()
   const id = Number(idParam)
-  const { data, isLoading, isError, isInvalidId } = useMovieDetail(id)
+  const { data, isLoading, isError, isInvalidId, isNotFound } = useMovieDetail(id)
 
   const {
     toggleWatchList,
     isInWatchList,
   } = useWatchListStore()
 
-  if (isInvalidId) return <div>Invalid movie ID</div>
+  if (isInvalidId) {
+    return <div>Invalid movie ID</div>
+  }
+  if (isNotFound) {
+    return <div>Movie not found</div>
+  }
   if (isLoading) return <div>Loading...</div>
   if (isError || !data) return <div>Failed to load movie details</div>
 

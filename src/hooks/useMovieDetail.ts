@@ -13,8 +13,11 @@ export const useMovieDetail = (
     staleTime: 1000 * 60 * 5,
   })
 
+  const isNotFound = queryResult.error?.message === 'NOT_FOUND'
+
   return {
     ...queryResult,
     isInvalidId: !isValidId,
+    isNotFound
   }
 }

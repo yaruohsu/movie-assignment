@@ -4,6 +4,7 @@ import mockSearchResult from '@/api/__mocks__/search.json'
 import mockMovieDetail from '@/api/__mocks__/detail.json'
 import { toMovieDetail, type MovieDetailPreview } from './movieDetail.dto'
 import { toMovieList, type Movie } from './movieList.dto'
+import axios from 'axios'
 
 const language = 'en-US'
 
@@ -61,6 +62,11 @@ export const fetchMovieDetail = async (id: number): Promise<MovieDetailPreview> 
 
     return toMovieDetail(res.data)
   } catch (error) {
+    if (axios.isAxiosError(error)) {
+      if (error.response?.status === 404) {
+        throw new Error('NOT_FOUND')
+      }
+    }
     console.error('Error fetching movie detail:', error)
     throw new Error('Something went wrong while retrieving movie details. Please try again.')
   }
