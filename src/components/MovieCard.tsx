@@ -1,9 +1,9 @@
-import { Bookmark } from 'lucide-react'
 import type { Movie } from '@/api/tmdb/movieList.dto'
 import type { WatchListMovie } from '@/stores/useWatchListStore'
 import { Card, CardContent } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 import fallbackPoster from '@/assets/images/fallback-poster.png'
+import { WishListToggle } from './WishListToggle'
 
 type MovieCardProps = {
   movie: Movie | Omit<WatchListMovie, 'addTime'>
@@ -47,24 +47,16 @@ export const MovieCard = ({ movie, isSaved, onCardClick, onImageClick, onToggleS
 
       {/* WatchList Toggle Button */}
       {onToggleSave && (
-        <button
-          className="absolute top-2 right-2 z-10 bg-background/80 hover:bg-background/90 backdrop-blur-sm rounded-full p-1 transition cursor-pointer"
-          onClick={(e) => {
-            e.stopPropagation()
-            onToggleSave({ id, title, posterUrl })
-          }}
-        >
-          <Bookmark
-            className={cn(
-              'w-6 h-6 transition-all duration-300',
-              isSaved ? 'fill-yellow-400 text-yellow-400' : 'fill-none text-muted-foreground'
-            )}
-            strokeWidth={2}
-          />
-
-        </button>
+        <WishListToggle
+          id={id}
+          isSaved={isSaved ?? false}
+          posterUrl={posterUrl}
+          title={title}
+          onToggleSave={onToggleSave}
+          className="absolute top-2 right-2 z-10"
+        />
       )}
-      <CardContent className="flex flex-col gap-2 p-2 ">
+      <CardContent className="flex flex-col gap-2 p-2">
         {content}
       </CardContent>
     </Card>

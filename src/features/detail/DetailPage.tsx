@@ -1,9 +1,10 @@
 import { type FC } from 'react';
-import { Bookmark, BookmarkCheck, Star } from 'lucide-react';
+import { Star } from 'lucide-react';
 import { useParams } from 'react-router-dom'
 import { useMovieDetail } from '@/hooks/useMovieDetail'
 import { LogoImage } from '@/components/LogoImage';
 import { useWatchListStore } from '@/stores/useWatchListStore';
+import { WishListToggle } from '@/components/WishListToggle';
 
 
 const MovieDetailPage: FC = () => {
@@ -41,13 +42,12 @@ const MovieDetailPage: FC = () => {
 
   const inWatchList = isInWatchList(id)
 
-  const handleToggle = () => {
+  const handleToggle = () =>
     toggleWatchList({
       id,
       title: data.title,
       posterUrl,
     })
-  }
 
   return (
     <div className="text-foreground">
@@ -77,18 +77,13 @@ const MovieDetailPage: FC = () => {
               <h1 className="text-2xl md:text-4xl font-bold">{title}</h1>
               <p className="text-muted-foreground italic">{tagline}</p>
             </div>
-            <button
-              onClick={handleToggle}
-              className="ml-4 mt-1 text-primary hover:opacity-80"
-              title={inWatchList ? 'Remove from WatchList' : 'Add to WatchList'}
-            >
-              {inWatchList ? (
-                <BookmarkCheck className="w-5 h-5 text-yellow-400" />
-              ) : (
-                <Bookmark className="w-5 h-5 text-white" />
-              )}
-
-            </button>
+            <WishListToggle
+              id={id}
+              isSaved={inWatchList}
+              posterUrl={posterUrl}
+              title={title}
+              onToggleSave={handleToggle}
+            />
           </div>
 
           {/* Score */}
