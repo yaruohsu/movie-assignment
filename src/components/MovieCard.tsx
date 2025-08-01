@@ -3,6 +3,7 @@ import type { Movie } from '@/api/tmdb/movieList.dto'
 import type { WatchListMovie } from '@/stores/useWatchListStore'
 import { Card, CardContent } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
+import fallbackPoster from '@/assets/images/fallback-poster.png'
 
 type MovieCardProps = {
   movie: Movie | Omit<WatchListMovie, 'addTime'>
@@ -32,9 +33,14 @@ export const MovieCard = ({ movie, isSaved, onCardClick, onImageClick, onToggleS
         onClick={() => onImageClick?.(id)}
       >
         <img
-          src={`https://image.tmdb.org/t/p/w300${movie.posterUrl}`}
-          alt={movie.title}
+          src={posterUrl}
+          alt={title}
           className="w-full h-full object-cover rounded-t"
+          onError={(e) => {
+            if (!e.currentTarget.src.includes(fallbackPoster)) {
+              e.currentTarget.src = fallbackPoster
+            }
+          }}
         />
         <div className="absolute inset-0 bg-black opacity-50 group-hover:opacity-0 transition-opacity duration-300 pointer-events-none" />
       </div>

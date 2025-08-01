@@ -23,9 +23,17 @@ export interface Movie {
 }
 
 export const toMovieList = (data: MovieRaw[]): Movie[] => {
-  return data.map((item: MovieRaw) => ({
-    id: item.id,
-    title: item.title,
-    posterUrl: item.poster_path ? `https://image.tmdb.org/t/p/w500${item.poster_path}` : fallbackPoster,
-  }))
-}
+  return data.map((item: MovieRaw) => {
+    const isFullUrl = item.poster_path?.startsWith('http');
+    return {
+      id: item.id,
+      title: item.title,
+      posterUrl: item.poster_path
+        ? isFullUrl
+          ? item.poster_path
+          : `https://image.tmdb.org/t/p/w500${item.poster_path}`
+        : fallbackPoster,
+    };
+  });
+};
+
