@@ -9,9 +9,7 @@ interface MovieListProps {
 
 export const MovieList = ({ movies }: MovieListProps) => {
   const navigate = useNavigate()
-  const { watchList, toggleWatchList } = useWatchListStore()
-
-  const isSaved = (id: number) => watchList.some((m) => m.id === id)
+  const { isInWatchList, toggleWatchList } = useWatchListStore()
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -19,7 +17,7 @@ export const MovieList = ({ movies }: MovieListProps) => {
         <MovieCard
           key={movie.id}
           movie={movie}
-          isSaved={isSaved(movie.id)}
+          isSaved={isInWatchList(movie.id)}
           onToggleSave={toggleWatchList}
           onCardClick={() => navigate(`../detail/${movie.id}`)}
           content={
