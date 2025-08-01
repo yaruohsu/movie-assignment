@@ -1,7 +1,6 @@
 import { type FC } from 'react';
 import { Bookmark, BookmarkCheck, Star } from 'lucide-react';
 import { useParams } from 'react-router-dom'
-import fallbackPoster from '@/assets/images/fallback-poster.png'
 import { useMovieDetail } from '@/hooks/useMovieDetail'
 import { LogoImage } from '@/components/LogoImage';
 import { useWatchListStore } from '@/stores/useWatchListStore';
@@ -26,7 +25,7 @@ const MovieDetailPage: FC = () => {
     tagline,
     overview,
     backdrop_path,
-    poster_path,
+    posterUrl,
     genres,
     vote_average,
     release_date,
@@ -41,7 +40,7 @@ const MovieDetailPage: FC = () => {
     toggleWatchList({
       id,
       title: data.title,
-      posterUrl: data.poster_path ?? fallbackPoster,
+      posterUrl,
     })
   }
 
@@ -59,14 +58,9 @@ const MovieDetailPage: FC = () => {
         {/* Poster */}
         <div className="md:col-span-1">
           <img
-            src={`https://image.tmdb.org/t/p/w500${poster_path}`}
+            src={posterUrl}
             alt={title}
             className="w-full rounded-xl shadow-lg"
-            onError={(e) => {
-              if (!e.currentTarget.src.includes(fallbackPoster)) {
-                e.currentTarget.src = fallbackPoster
-              }
-            }}
           />
         </div>
 

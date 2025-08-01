@@ -1,3 +1,4 @@
+import fallbackPoster from '@/assets/images/fallback-poster.png'
 export interface MovieRaw {
   adult: boolean
   backdrop_path: string | null
@@ -25,6 +26,6 @@ export const toMovieList = (data: MovieRaw[]): Movie[] => {
   return data.map((item: MovieRaw) => ({
     id: item.id,
     title: item.title,
-    posterUrl: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
+    posterUrl: item.poster_path ? `https://image.tmdb.org/t/p/w500${item.poster_path}` : fallbackPoster,
   }))
 }

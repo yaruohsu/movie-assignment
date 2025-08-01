@@ -1,5 +1,4 @@
 import type { Movie } from '@/api/tmdb/movieList.dto'
-import fallbackPoster from '@/assets/images/fallback-poster.png'
 import type { WatchListMovie } from '@/stores/useWatchListStore'
 import { Bookmark, BookmarkCheck } from 'lucide-react'
 
@@ -24,12 +23,7 @@ export const MovieCard = ({ movie, isSaved, onClick, onToggleSave }: MovieCardPr
         <img
           alt={title}
           className="h-full w-full object-cover"
-          src={posterUrl || fallbackPoster}
-          onError={(e) => {
-            if (!e.currentTarget.src.includes(fallbackPoster)) {
-              e.currentTarget.src = fallbackPoster
-            }
-          }}
+          src={posterUrl}
         />
         <div className="absolute inset-0 bg-black opacity-50 group-hover:opacity-0 transition-opacity duration-300 pointer-events-none" />
 

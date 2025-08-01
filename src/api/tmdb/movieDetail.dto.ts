@@ -1,3 +1,4 @@
+import fallbackPoster from '@/assets/images/fallback-poster.png'
 interface Genre {
   id: number
   name: string
@@ -63,7 +64,6 @@ export type MovieDetailPreview = Pick<
   | 'tagline'
   | 'overview'
   | 'backdrop_path'
-  | 'poster_path'
   | 'genres'
   | 'vote_average'
   | 'release_date'
@@ -71,14 +71,16 @@ export type MovieDetailPreview = Pick<
   | 'production_companies'
   | 'homepage'
   | 'vote_count'
->;
+> & {
+  posterUrl: string
+};
 
 export const toMovieDetail = (raw: MovieDetailRaw): MovieDetailPreview => ({
   title: raw.title,
   tagline: raw.tagline,
   overview: raw.overview,
   backdrop_path: raw.backdrop_path,
-  poster_path: raw.poster_path,
+  posterUrl: raw.poster_path ? `https://image.tmdb.org/t/p/w500${raw.poster_path}` : fallbackPoster,
   genres: raw.genres,
   vote_average: raw.vote_average,
   release_date: raw.release_date,
