@@ -63,29 +63,29 @@ export type MovieDetailPreview = Pick<
   | 'title'
   | 'tagline'
   | 'overview'
-  | 'backdrop_path'
   | 'genres'
-  | 'vote_average'
-  | 'release_date'
   | 'runtime'
-  | 'production_companies'
   | 'homepage'
   | 'vote_count'
 > & {
   posterUrl: string
+  backdropPath?: string | null
+  voteAverage: number
+  releaseDate: string
+  productionCompanies: ProductionCompany[]
 };
 
 export const toMovieDetail = (raw: MovieDetailRaw): MovieDetailPreview => ({
   title: raw.title,
   tagline: raw.tagline,
   overview: raw.overview,
-  backdrop_path: raw.backdrop_path,
+  backdropPath: raw.backdrop_path,
   posterUrl: raw.poster_path ? `https://image.tmdb.org/t/p/w500${raw.poster_path}` : fallbackPoster,
   genres: raw.genres,
-  vote_average: raw.vote_average,
-  release_date: raw.release_date,
+  voteAverage: raw.vote_average,
+  releaseDate: raw.release_date,
   runtime: raw.runtime,
-  production_companies: raw.production_companies,
+  productionCompanies: raw.production_companies,
   homepage: raw.homepage,
   vote_count: raw.vote_count,
 })

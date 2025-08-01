@@ -24,13 +24,13 @@ const MovieDetailPage: FC = () => {
     title,
     tagline,
     overview,
-    backdrop_path,
+    backdropPath,
     posterUrl,
     genres,
-    vote_average,
-    release_date,
+    voteAverage,
+    releaseDate,
     runtime,
-    production_companies,
+    productionCompanies,
     homepage,
   } = data;
 
@@ -47,10 +47,10 @@ const MovieDetailPage: FC = () => {
   return (
     <div className="text-foreground">
       {/* Banner */}
-      {backdrop_path && (
+      {backdropPath && (
         <div
           className="w-full h-64 hidden md:block md:h-96 bg-top bg-cover"
-          style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original${backdrop_path})` }}
+          style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original${backdropPath})` }}
         />
       )}
 
@@ -66,7 +66,7 @@ const MovieDetailPage: FC = () => {
 
         {/* Content */}
         <div className="md:col-span-2 flex flex-col min-h-full space-y-4">
-          {/* 標題 + 收藏 */}
+          {/* Title + Watch list */}
           <div className="flex items-start justify-between">
             <div>
               <h1 className="text-2xl md:text-4xl font-bold">{title}</h1>
@@ -86,15 +86,15 @@ const MovieDetailPage: FC = () => {
             </button>
           </div>
 
-          {/* 評分 */}
+          {/* Score */}
           <div className="flex items-center gap-2 justify-center md:justify-start text-yellow-400">
             <Star className="w-5 h-5 fill-yellow-400" />
-            <span className="text-lg font-semibold">{vote_average}/10</span>
+            <span className="text-lg font-semibold">{voteAverage}/10</span>
             <span className="text-sm text-muted-foreground">({data.vote_count} votes)</span>
           </div>
 
           <div className="flex gap-4 text-sm text-muted-foreground">
-            <span>{release_date}</span>
+            <span>{releaseDate}</span>
             <span>{runtime} min</span>
             <span>{genres.map((g) => g.name).join(', ')}</span>
           </div>
@@ -113,10 +113,10 @@ const MovieDetailPage: FC = () => {
           )}
 
           {/* Production Companies */}
-          <div className="mt-auto pt-4">
+          {productionCompanies.length > 0 && (<div className="mt-auto pt-4">
             <h2 className="font-semibold">Production Companies</h2>
             <div className="flex flex-wrap gap-4 mt-2 justify-center">
-              {production_companies.map((company) => (
+              {productionCompanies.map((company) => (
                 <div key={company.id} className="flex items-center gap-2">
                   {company.logo_path ? (
                     <LogoImage
@@ -129,7 +129,7 @@ const MovieDetailPage: FC = () => {
                 </div>
               ))}
             </div>
-          </div>
+          </div>)}
         </div>
       </div>
     </div>
