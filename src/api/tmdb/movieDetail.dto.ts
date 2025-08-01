@@ -83,3 +83,42 @@ export const toMovieDetail = (raw: MovieDetailRaw): MovieDetailPreview => ({
   homepage: raw.homepage,
   vote_count: raw.vote_count,
 })
+
+export interface VideoRaw {
+  iso_639_1: string
+  iso_3166_1: string
+  name: string
+  key: string
+  published_at: string
+  site: string
+  size: number
+  type: string
+  official: boolean
+  id: string
+}
+export interface MovieVideosResponse {
+  id: number
+  results: VideoRaw[]
+}
+
+export type MovieVideo = {
+  key: string
+  name: string
+  site: string
+  type: string
+  id: string
+}
+
+export const toMovieVideos = (videos: VideoRaw[]): MovieVideo[] => {
+  return videos
+    .filter((video) => video.site === 'YouTube')
+    .map((video) => {
+      return {
+        key: video.key,
+        name: video.name,
+        site: video.site,
+        type: video.type,
+        id: video.id,
+      }
+    })
+}

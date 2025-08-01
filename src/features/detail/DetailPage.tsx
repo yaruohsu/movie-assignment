@@ -5,11 +5,13 @@ import { useMovieDetail } from '@/hooks/useMovieDetail'
 import { LogoImage } from '@/components/LogoImage'
 import { useWatchListStore } from '@/stores/useWatchListStore'
 import { WishListToggle } from '@/components/WishListToggle'
+import { useMovieVideos } from '@/hooks/useMovieVideo'
 
 const MovieDetailPage: FC = () => {
   const { id: idParam } = useParams()
   const id = Number(idParam)
   const { data, isLoading, isError, isInvalidId, isNotFound } = useMovieDetail(id)
+  const { data: videos } = useMovieVideos(id)
 
   const { toggleWatchList, isInWatchList } = useWatchListStore()
 
@@ -44,7 +46,7 @@ const MovieDetailPage: FC = () => {
       title: data.title,
       posterUrl,
     })
-
+  console.log('Videos:', videos)
   return (
     <div className="text-foreground">
       {/* Banner */}
@@ -102,6 +104,26 @@ const MovieDetailPage: FC = () => {
             >
               Visit Official Site →
             </a>
+          )}
+
+          {videos !== undefined && videos.length > 0 && (
+            <div className="pt-4">
+              <h2 className="font-semibold mb-2">Videos</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4 justify-center">
+                {videos.map((video) => (
+                  <div key={video.id} className="aspect-video">
+                    <iframe
+                      title={video.name}
+                      width="100%"
+                      height="100%"
+                      className="rounded-xl"
+                      src={`https://www.youtube.com/embed/${video.key}`}
+                      allowFullScreen
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
           )}
 
           {/* Production Companies */}

@@ -2,7 +2,13 @@ import { apiClient } from '@/api/apiClient'
 import { TMDB_ENDPOINTS } from '@/constants/tmdb'
 import mockSearchResult from '@/api/__mocks__/search.json'
 import mockMovieDetail from '@/api/__mocks__/detail.json'
-import { toMovieDetail, type MovieDetailPreview } from './movieDetail.dto'
+import mockMovieVideos from '@/api/__mocks__/videos.json'
+import {
+  toMovieDetail,
+  toMovieVideos,
+  type MovieDetailPreview,
+  type MovieVideo,
+} from './movieDetail.dto'
 import { toMovieList, type Movie } from './movieList.dto'
 import axios from 'axios'
 
@@ -69,5 +75,24 @@ export const fetchMovieDetail = async (id: number): Promise<MovieDetailPreview> 
     }
     console.error('Error fetching movie detail:', error)
     throw new Error('Something went wrong while retrieving movie details. Please try again.')
+  }
+}
+
+export const fetchMovieVideos = async (id: number): Promise<MovieVideo[]> => {
+  if (USE_MOCK) {
+    return toMovieVideos(mockMovieVideos.results)
+  }
+
+  try {
+    const res = await apiClient.get(TMDB_ENDPOINTS.MOVIE_VIDEOS(id), {
+      params: {
+        language,
+      },
+    })
+
+    return toMovieVideos(res.data.results)
+  } catch (error) {
+    console.error('Error fetching movie videos:', error)
+    throw new Error('Something went wrong while retrieving movie videos. Please try again.')
   }
 }
